@@ -18,6 +18,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Lob;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -27,50 +28,15 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 @Entity
-@Table (name="USER_DETAILS")
+@Table(name = "USER_DETAILS")
 public class UserDetails {
-	
-	@Id @GeneratedValue
+
+	@Id
+	@GeneratedValue
 	private int userID;
 	private String userName;
-
-	@ElementCollection(fetch=FetchType.EAGER)
-	@JoinTable(name = "USER_ADDRESS", joinColumns = @JoinColumn(name = "USER_ID"))
-	@GenericGenerator(name = "sequence_gen", strategy = "sequence")
-	@CollectionId(columns = { @Column(name="ADDRESS_ID") }, generator = "sequence_gen", type = @Type(type = "long"))
-	private Collection<Address> listOfAddresses = new ArrayList<Address>();
-	
-
-	public Collection<Address> getListOfAddresses() {
-		return listOfAddresses;
-	}
-
-	public void setListOfAddresses(Collection<Address> listOfAddresses) {
-		this.listOfAddresses = listOfAddresses;
-	}
-
-	@Temporal(TemporalType.DATE)
-	private Date joinedDate;
-	
-	@Lob
-	private String description;
-
-
-	public Date getJoinedDate() {
-		return joinedDate;
-	}
-
-	public void setJoinedDate(Date joinedDate) {
-		this.joinedDate = joinedDate;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
+	@OneToOne @JoinColumn(name="Vehicle_ID")
+	private Vehicle vehicle;
 
 	public int getUserID() {
 		return userID;
@@ -79,13 +45,21 @@ public class UserDetails {
 	public void setUserID(int userID) {
 		this.userID = userID;
 	}
-	
+
 	public String getUserName() {
 		return userName;
 	}
 
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+
+	public Vehicle getVehicle() {
+		return vehicle;
+	}
+
+	public void setVehicle(Vehicle vehicle) {
+		this.vehicle = vehicle;
 	}
 
 }
