@@ -16,8 +16,10 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.JoinTable;
 import javax.persistence.Lob;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -35,9 +37,17 @@ public class UserDetails {
 	@GeneratedValue
 	private int userID;
 	private String userName;
-	@OneToOne @JoinColumn(name="Vehicle_ID")
-	private Vehicle vehicle;
-
+	@OneToMany
+	@JoinTable(name = "USER_VEHICLE", joinColumns=@JoinColumn(name="USER_ID"),
+						inverseJoinColumns=@JoinColumn(name="VEHICLE_ID"))
+	private Collection<Vehicle> vehicle = new ArrayList<Vehicle>();
+	
+	
+	public void assignUserVehicleRelation(Vehicle vehicle, UserDetails user) {
+		this.getVehicle().add(vehicle);
+		vehicle.setUser(user);
+	}
+	
 	public int getUserID() {
 		return userID;
 	}
@@ -54,12 +64,14 @@ public class UserDetails {
 		this.userName = userName;
 	}
 
-	public Vehicle getVehicle() {
+	public Collection<Vehicle> getVehicle() {
 		return vehicle;
 	}
 
-	public void setVehicle(Vehicle vehicle) {
+	public void setVehicle(Collection<Vehicle> vehicle) {
 		this.vehicle = vehicle;
 	}
+
+	
 
 }
