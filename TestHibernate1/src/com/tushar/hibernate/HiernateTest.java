@@ -20,10 +20,17 @@ public class HiernateTest {
 		Vehicle vehicle2 = new Vehicle();
 		vehicle2.setVehicleName("Bike");
 		
-		user.getVehicle().add(vehicle);
+		user.assignUserVehicleRelation(vehicle, user);
+		user.assignUserVehicleRelation(vehicle2, user);
+		
+		/*user.getVehicle().add(vehicle);
 		user.getVehicle().add(vehicle2);
+		
+		
+		vehicle.setUser(user);
+		vehicle2.setUser(user);
 				
-	
+	*/
 		SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
 		
 		Session session = sessionFactory.openSession();

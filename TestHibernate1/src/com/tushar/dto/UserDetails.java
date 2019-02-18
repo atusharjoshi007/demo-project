@@ -43,6 +43,11 @@ public class UserDetails {
 	private Collection<Vehicle> vehicle = new ArrayList<Vehicle>();
 	
 	
+	public void assignUserVehicleRelation(Vehicle vehicle, UserDetails user) {
+		this.getVehicle().add(vehicle);
+		vehicle.setUser(user);
+	}
+	
 	public int getUserID() {
 		return userID;
 	}
